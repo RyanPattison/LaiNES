@@ -1,7 +1,7 @@
 #include "cartridge.hpp"
 #include "cpu.hpp"
-#include "gui.hpp"
 #include "ppu.hpp"
+#include "NESEmulator.h"
 
 namespace PPU {
 #include "palette.inc"
@@ -12,7 +12,7 @@ u8 ciRam[0x800];           // VRAM for nametables.
 u8 cgRam[0x20];            // VRAM for palettes.
 u8 oamMem[0x100];          // VRAM for sprite properties.
 Sprite oam[8], secOam[8];  // Sprite buffers.
-u32 pixels[256 * 240];     // Video buffer.
+u16 pixels[256 * 240];     // Video buffer.
 
 Addr vAddr, tAddr;  // Loopy V, T.
 u8 fX;              // Fine X.
@@ -269,7 +269,7 @@ template<Scanline s> void scanline_cycle()
     static u16 addr;
 
     if (s == NMI and dot == 1) { status.vBlank = true; if (ctrl.nmi) CPU::set_nmi(); }
-    else if (s == POST and dot == 0) GUI::new_frame(pixels);
+    else if (s == POST and dot == 0) NESEmulator::new_frame(pixels);
     else if (s == VISIBLE or s == PRE)
     {
         // Sprites:

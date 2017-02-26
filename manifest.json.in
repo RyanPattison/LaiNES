@@ -1,0 +1,17 @@
+{
+    "name": "laines.rpattison",
+    "description": "A Nintendo Entertainment System Emulator for Ubuntu Touch",
+    "architecture": "@CLICK_ARCH@",
+    "title": "LaiNES",
+    "hooks": {
+        "laines": {
+            "apparmor": "laines.apparmor",
+            "desktop":  "laines.rpattison.desktop",
+	    "content-hub": "laines-content.json"
+        }
+    },
+    "version": "0.1",
+    "maintainer": "Ryan Pattison <ryan@theinternetemail.com>",
+    "framework": "ubuntu-sdk-15.04"
+}
+

@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>DirectionalPad.qml</file>
+        <file>NESButton.qml</file>
+        <file>TouchSensor.qml</file>
+        <file>ButtonPad.qml</file>
+    </qresource>
+</RCC>

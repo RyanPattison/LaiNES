@@ -1,6 +1,6 @@
-#include "gui.hpp"
 #include "cpu.hpp"
 #include "apu.hpp"
+#include "NESEmulator.h"
 
 namespace APU {
 
@@ -9,11 +9,12 @@ Nes_Apu apu;
 Blip_Buffer buf;
 
 const int OUT_SIZE = 4096;
+typedef short blip_sample_t;
 blip_sample_t outBuf[OUT_SIZE];
 
 void init()
 {
-    buf.sample_rate(96000);
+    buf.sample_rate(44100);
     buf.clock_rate(1789773);
 
     apu.output(&buf);
@@ -43,7 +44,7 @@ void run_frame(int elapsed)
     buf.end_frame(elapsed);
 
     if (buf.samples_avail() >= OUT_SIZE)
-        GUI::new_samples(outBuf, buf.read_samples(outBuf, OUT_SIZE));
+        NESEmulator::new_samples(outBuf, buf.read_samples(outBuf, OUT_SIZE));
 }
 
 
