@@ -12,15 +12,7 @@ MainView {
 
     applicationName: "laines.rpattison"
 
-    property color nes_back: "#1E2126"
-    property color nes_red: "#DB1B16"
-    property color nes_red_accent: "#EC423D"
-    property color nes_white: "#DFDCD5"
-    property color nes_white_accent: "#F7F7F5"
-    property color nes_black: Qt.darker("#141A1A", 1.2)
-    property color nes_black_accent: "#2B2B2B"
-    property color nes_gray: "#8D8D8D"
-    property color nes_gray_accent: "#A8A8A8"
+    property color nes_black: "#1E2126"
 
     property real outline: units.gu(0.25)
     property real thin_outline: units.gu(0.25)
@@ -54,7 +46,7 @@ MainView {
 
     NESEmulator {
         id: emu
-        color: nes_back
+        color: nes_black
     }
 
     function importItems(items) {
@@ -77,12 +69,11 @@ MainView {
     }
 
     function requestROM() {
-        emu.pause()
         var peer = null
         for (var i = 0; i < model.peers.length; ++i) {
             var p = model.peers[i]
             var s = p.appId
-            if (s.indexOf("filemanager") != -1) {
+            if (s.indexOf("filemanager") !== -1) {
                 peer = p
             }
         }
@@ -157,10 +148,6 @@ MainView {
             y: 0
             width: units.gu(19)
             height: width
-            color: nes_black
-            centerColor: nes_black_accent
-            outlineColor: nes_white_accent
-
             onLeftPressed: click()
             onRightPressed: click()
             onUpPressed: click()
@@ -169,17 +156,15 @@ MainView {
 
         NESButton {
             id: select
-            y: units.gu(28)
+            y: units.gu(26)
+            text: "SELECT"
 
             anchors.right: parent.right
             anchors.rightMargin: units.gu(1)
 
-            width: units.gu(9)
-            height: units.gu(2.5)
+            width: units.gu(9.5)
+            height: units.gu(4.33)
 
-            btnColor: nes_gray
-            btnOutlineColor: nes_gray_accent
-            radius: height / 3
             onPressed: click()
         }
     }
@@ -192,6 +177,8 @@ MainView {
         height: units.gu(38)
 
         NESButton {
+            text: "START"
+
             id: start
             y: select.y
 
@@ -201,26 +188,17 @@ MainView {
             width: select.width
             height: select.height
 
-            btnColor: nes_gray
-            btnOutlineColor: nes_gray_accent
-            radius: height / 3
             onPressed: click()
         }
 
         ButtonPad {
-            y: 0
+            y: units.gu(3)
             x: units.gu(0.5)
             width: parent.width
             height: units.gu(18)
             id: btns
-
             onAPressed: click()
             onBPressed: click()
-
-            padColor: nes_white_accent
-            padOutlineColor: nes_white
-            btnColor: nes_red
-            btnOutlineColor: nes_black
         }
     }
 
@@ -255,7 +233,7 @@ MainView {
         onStateChanged: {
             if (root.activeTransfer.state === ContentTransfer.Charged) {
                 root.importItems(root.activeTransfer.items)
-            } else if (root.activeTransfer.state == ContentTransfer.Aborted) {
+            } else if (root.activeTransfer.state === ContentTransfer.Aborted) {
                 emu.play()
                 picker.visible = false
                 console.log("aborted transfer")
@@ -267,7 +245,7 @@ MainView {
         id: shaded_corner
         width: units.gu(16)
         height: units.gu(28)
-        color: Qt.darker(nes_black, 1.05)
+        color: "#666666"
         rotation: 50
 
         anchors {
@@ -290,13 +268,13 @@ MainView {
 
     Icon {
         name: gameSettings.sound ? "speaker" : "speaker-mute"
-        color: nes_gray
-        width: units.gu(4)
-        height: units.gu(4)
+        color: nes_black
+        width: units.gu(5)
+        height: units.gu(5)
         anchors {
             bottom: parent.bottom
             right: parent.right
-            margins: units.gu(1.5)
+            margins: units.gu(1)
         }
 
         MouseArea {

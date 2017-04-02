@@ -5,35 +5,65 @@ MultiPointTouchArea {
     id: root
     property int bsize: width / 2.2
 
-    property color padColor: "white"
-    property color padOutlineColor: "white"
-    property color btnOutlineColor: "green"
+    property color padColor: "#d1d1d1"
+    property color padOutlineColor: "#ececec"
+    property color btnOutlineColor: "#db413f"
     property int outlineWidth: units.gu(0.2)
 
-    property color btnColor: "white"
+    property color btnColor: "#bc0e0c"
     property color pressedButtonFill: Qt.darker(btnColor, 1.1)
-    property real outlinePressed: units.gu(0.4)
-    property real margin: units.gu(0.5)
-
+    property color pressedOutlineColor: Qt.darker(btnOutlineColor, 1.1)
+    property real margin: units.gu(1)
+    property real btngap: units.gu(0.1)
     property real radius: width / 2
+    property color textColor: "#ab2a2a"
+
+    Label {
+        text: "B"
+        color: textColor
+        anchors {
+            bottom: b.top
+            right: b.right
+            bottomMargin: units.gu(0.5)
+        }
+        font.bold: true
+        fontSize: "large"
+    }
+
+    Label {
+        text: "A"
+        color: textColor
+        anchors {
+            bottom: a.top
+            right: a.right
+            bottomMargin: units.gu(0.5)
+        }
+        font.bold: true
+        fontSize: "large"
+    }
 
     Rectangle {
         id: b
         width: bsize
         height: bsize
-        border.width: outlineWidth
-        radius: outlineWidth * 3
+        radius: units.gu(0.5)
         color: padColor
         anchors.verticalCenter: root.verticalCenter
 
         Rectangle {
-            id: bbutton
-            radius: root.radius
-            border.color: btnOutlineColor
+            Rectangle {
+                id: bbutton
+                radius: root.radius
+                border.color: btnOutlineColor
+                anchors.fill: parent
+                anchors.margins: btngap
+                border.width: outlineWidth * 2
+                color: btnColor
+            }
             anchors.fill: parent
             anchors.margins: root.margin
-            border.width: outlineWidth
-            color: btnColor
+            radius: root.radius
+            color: "black"
         }
     }
 
@@ -41,21 +71,26 @@ MultiPointTouchArea {
         id: a
         width: bsize
         height: bsize
-        border.width: outlineWidth
-        radius: outlineWidth * 3
+        radius: units.gu(0.5)
         anchors.left: b.right
-        anchors.rightMargin: root.width * 0.1
+        anchors.leftMargin: units.gu(1)
         color: padColor
         anchors.verticalCenter: root.verticalCenter
 
         Rectangle {
-            id: abutton
-            radius: root.radius
-            border.color: btnOutlineColor
+            Rectangle {
+                id: abutton
+                radius: root.radius
+                border.color: btnOutlineColor
+                anchors.fill: parent
+                anchors.margins: btngap
+                border.width: outlineWidth * 2
+                color: btnColor
+            }
             anchors.fill: parent
             anchors.margins: root.margin
-            border.width: outlineWidth
-            color: btnColor
+            radius: root.radius
+            color: "black"
         }
     }
 
@@ -68,23 +103,27 @@ MultiPointTouchArea {
     signal bReleased
 
     onAPressed: {
-        abutton.border.width = outlinePressed
         abutton.color = pressedButtonFill
+        abutton.border.color = pressedOutlineColor
+        abutton.scale = 0.97
     }
 
     onAReleased: {
-        abutton.border.width = outlineWidth
         abutton.color = btnColor
+        abutton.border.color = btnOutlineColor
+        abutton.scale = 1
     }
 
     onBPressed: {
-        bbutton.border.width = outlinePressed
         bbutton.color = pressedButtonFill
+        bbutton.scale = 0.97
+        bbutton.border.color = pressedOutlineColor
     }
 
     onBReleased: {
-        bbutton.border.width = outlineWidth
         bbutton.color = btnColor
+        bbutton.scale = 1
+        bbutton.border.color = btnOutlineColor
     }
 
     onTouchUpdated: {

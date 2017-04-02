@@ -3,10 +3,11 @@ import Ubuntu.Components 1.3
 
 Item {
     id: root
-    property color outlineColor: "white"
+
+    property color outlineColor: "#393939"
     property color color: "black"
-    property color centerColor: "black"
-    property color backColor: "black"
+    property color centerColor: "#3c3c3c"
+    property color backColor: "#d1d1d1"
 
     property int realWidth: width - units.gu(2)
     property int wingSize: realWidth / 3
@@ -30,18 +31,18 @@ Item {
 
     Rectangle {
         anchors.centerIn: parent
-        width: xAxis.width + 2 * displacement
-        height: centreSize + 2 * displacement
+        width: xAxis.width + 4 * displacement
+        height: centreSize + 4 * displacement
         color: backColor
-        radius: xAxis.radius
+        radius: dpad_line * 2.25
     }
 
     Rectangle {
         anchors.centerIn: parent
-        width: centreSize + 2 * displacement
-        height: yAxis.height + 2 * displacement
+        width: centreSize + 4 * displacement
+        height: yAxis.height + 4 * displacement
         color: backColor
-        radius: yAxis.radius
+        radius: dpad_line * 2.25
     }
 
     Rectangle {
@@ -52,11 +53,31 @@ Item {
 
         width: wingSize * 2 + centreSize
         height: centreSize
-        radius: dpad_line
+        radius: dpad_line * 1.5
         color: root.color
-        border.color: root.outlineColor
-        border.width: dpad_line
+
+        Label {
+            text: "▲"
+            rotation: 90
+            anchors.right: parent.right
+            anchors.verticalCenter: parent.verticalCenter
+            color: root.centerColor
+            font.pixelSize: mid.height * .4
+            anchors.rightMargin: units.gu(1)
+        }
+
+
+        Label {
+            text: "▲"
+            rotation: 270
+            anchors.left: parent.left
+            anchors.verticalCenter: parent.verticalCenter
+            color: root.centerColor
+            font.pixelSize: mid.height * .4
+            anchors.leftMargin: units.gu(1)
+        }
     }
+
 
     Rectangle {
         id: yAxis
@@ -66,11 +87,28 @@ Item {
 
         width: centreSize
         height: wingSize * 2 + centreSize
-        radius: dpad_line
+        radius: dpad_line * 1.5
 
         color: root.color
-        border.color: root.outlineColor
-        border.width: dpad_line
+
+        Label {
+            text: "▲"
+            anchors.top: parent.top
+            anchors.horizontalCenter: parent.horizontalCenter
+            color: root.centerColor
+            font.pixelSize: mid.height * .4
+            anchors.topMargin: units.gu(0.75)
+        }
+
+
+        Label {
+            text: "▼"
+            anchors.bottom: parent.bottom
+            anchors.horizontalCenter: parent.horizontalCenter
+            color: root.centerColor
+            font.pixelSize: mid.height * .4
+            anchors.bottomMargin: units.gu(1)
+        }
     }
 
     Rectangle {
@@ -130,13 +168,13 @@ Item {
 
     function release() {
         if (direction) {
-            if (direction == "left") {
+            if (direction === "left") {
                 leftReleased()
-            } else if (direction == "right") {
+            } else if (direction === "right") {
                 rightReleased()
-            } else if (direction == "up") {
+            } else if (direction === "up") {
                 upReleased()
-            } else if (direction == "down") {
+            } else if (direction === "down") {
                 downReleased()
             }
             direction = null
@@ -144,16 +182,16 @@ Item {
     }
 
     function press(dir) {
-        if (dir != direction) {
+        if (dir !== direction) {
             release()
             direction = dir
-            if (direction == "left") {
+            if (direction === "left") {
                 leftPressed()
-            } else if (direction == "right") {
+            } else if (direction === "right") {
                 rightPressed()
-            } else if (direction == "up") {
+            } else if (direction === "up") {
                 upPressed()
-            } else if (direction == "down") {
+            } else if (direction === "down") {
                 downPressed()
             }
         }

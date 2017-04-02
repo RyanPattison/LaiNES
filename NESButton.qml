@@ -7,35 +7,54 @@ Item {
     signal pressed
     signal released
 
-    property color btnOutlineColor: "green"
-    property int outlineWidth: units.gu(0.2)
+    property int outlineWidth: units.gu(0.1)
 
-    property color btnColor: "white"
-    property color pressedButtonFill: Qt.darker(btnColor, 1.1)
-    property real outlinePressed: units.gu(0.4)
+    property color padColor: "#d1d1d1"
+    property color btnOutlineColor: "black"
+    property color btnColor:   "#303030"
+    property color pressedButtonFill: Qt.darker(btnColor, 1.2)
 
-    property real radius: width / 2
+    property real radius: units.gu(0.5)
+    property alias text: label.text
 
     Rectangle {
-        id: button
+        id: pad
         radius: root.radius
-        border.color: btnOutlineColor
         anchors.fill: parent
-        border.width: outlineWidth
-        color: btnColor
+        color: padColor
+        Rectangle {
+            id: button
+            anchors.fill: parent
+            anchors.margins: units.gu(1)
+            border.color: btnOutlineColor
+            border.width: units.gu(0.2)
+            radius: height / 2
+            color: btnColor
+        }
+    }
+
+    Label {
+        id: label
+        font.bold: true
+        anchors {
+            top: pad.bottom
+            topMargin: units.gu(1)
+            horizontalCenter: pad.horizontalCenter
+        }
+        color: "#ab2a2a"
     }
 
     TouchSensor {
         anchors.fill: parent
         onPushed: {
-            button.border.width = outlinePressed
             button.color = pressedButtonFill
+            button.scale = 0.95
             root.pressed()
         }
 
         onUnpushed: {
-            button.border.width = outlineWidth
             button.color = btnColor
+            button.scale = 1
             root.released()
         }
     }
